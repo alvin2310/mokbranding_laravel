@@ -303,7 +303,7 @@
 
         <div class="row">
             @foreach($blog as $blogdata)
-            <div class="col-lg-4 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="400">
+            <div class="blogcontainer col-lg-4 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="400">
                 <div class="blog card">
                 <img src="{{asset('img/portfolio/'.$blogdata->blog_thumbnail)}}" class="card-img-top img-responsive" alt="...">
                 <div class="card-body">
