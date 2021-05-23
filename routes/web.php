@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\CrudController;
 use Illuminate\Support\Facades\Route;
@@ -23,12 +24,15 @@ Route::get('/', function () {
 Route::get('/',[homeController::class, 'getdata']);
 Route::get('/login',[AuthController::class, 'showlogin']);
 Route::post('login',[AuthController::class, 'login'])->name('login');
+Route::get('/blog/{slug}/{id}',[BlogController::class, 'viewblog']);
+
 Route::group(['middleware'=>'auth'],function(){
     Route::get('/dashboard',[CrudController::class, 'showdata'])->name('dashboard');
     Route::get('/dashboard/portfolio', function () {return view('insertportfolio');});
     Route::get('/dashboard/blog', function () {return view('insertblog');});
     Route::get('logout',[AuthController::class, 'logout'])->name('logout');
     Route::post('/dashboard/portfolio/submit',[CrudController::class, 'simpanPortfolio'])->name('port_simpan');
+    Route::post('/dashboard/blog/submit',[BlogController::class, 'store'])->name('blog_store');
 });
 
 
