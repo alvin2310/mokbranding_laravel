@@ -1627,6 +1627,7 @@ section {
 .blog{
   border: none;
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
 
 .blogbtn{
@@ -1634,9 +1635,7 @@ section {
   background: none;
 }
 
-.blogcontainer{
-    height: 500px;
-}
+
 
 .blog .img-responsive{
     display: block;

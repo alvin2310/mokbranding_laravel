@@ -64,8 +64,8 @@ class BlogController extends Controller
         $file = $request->file('blog_thumbnail');
         $todayDate = Carbon::now();
         $upload_path = 'img/blog';
-        $file_name =$file->getClientOriginalName();
-        $file->move(time().$upload_path,$file_name);
+        $file_name =time().$file->getClientOriginalName();
+        $file->move($upload_path,$file_name);
         $description = $request->input('blog_desc');
         $dom = new \DomDocument();
         $dom->encoding = 'utf-8';
@@ -88,7 +88,7 @@ class BlogController extends Controller
             $img->setAttribute('src', '/img/blog'.$image_name);
         }
 
-        $description = $dom->saveHTML();
+        $description = utf8_decode($dom->saveHTML($dom->documentElement));
 
 
         DB::table('blog')->insert([
@@ -98,6 +98,7 @@ class BlogController extends Controller
             'category' => $request->category,
             'blog_thumbnail' => $file_name,
             'slug' => Str::slug($request->blog_title),
+            'plain_desc' => strip_tags($request->blog_desc),
         ]);
         return redirect('/dashboard/blog');
     }

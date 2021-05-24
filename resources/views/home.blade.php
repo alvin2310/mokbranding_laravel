@@ -272,7 +272,7 @@
             @foreach($portfolio as $porto)
             <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                 <div class="portfolio-wrap">
-                <img src="{{asset('img/portfolio/'.$porto->port_img)}}" class="img-fluid" alt="">
+                <img src="{{asset('img/portfolio/'.$porto->port_img)}}" class="img-fluid" alt="{{asset($porto->port_img)}}"  style="width:100%;height: 15vw;object-fit:cover;">
                 <div class="portfolio-info">
                     <h4>{{ $porto->port_name }}</h4>
                     <p>{{ $porto->port_client }}</p>
@@ -303,12 +303,12 @@
 
         <div class="row">
             @foreach($blog as $blogdata)
-            <div class="blogcontainer col-lg-4 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="400">
+            <div class="col-lg-4 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="400">
                 <div class="blog card">
-                <img src="{{asset('img/portfolio/'.$blogdata->blog_thumbnail)}}" class="card-img-top img-responsive" alt="...">
+                <img src="{{asset('img/blog/'.$blogdata->blog_thumbnail)}}" class="card-img-top img-responsive" style="width:100%;height: 15vw;object-fit:cover;" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">{{ $blogdata->blog_title }}</h5>
-                    <p class="card-text text-truncate">{{ $blogdata->blog_desc }}</p>
+                    <h5 class="card-title text-truncate">{{ $blogdata->blog_title }}</h5>
+                    <p class="card-text text-truncate">{{ $blogdata->plain_desc }}</p>
                     <a href="#" class="">Read More</a>
                 </div>
                 </div>
