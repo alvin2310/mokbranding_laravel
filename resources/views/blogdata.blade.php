@@ -8,7 +8,7 @@
       <div class="col-12 col-md-12 col-lg-12">
         <div class="card">
             <div class="card-header">
-              <h4>Portfolio Data</h4>
+              <h4>Blog Data</h4>
             </div>
             @if(session('message'))
             <div class="alert alert-success alert-dismissible show fade">
@@ -22,43 +22,47 @@
             @endif
             <div class="card-body">
               <table class="table table-image table-lg">
-                <thead>
+                <thead class="align-middle">
                   <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Porfilio Name</th>
-                    <th scope="col">Client</th>
+                    <th scope="col">Blog Title</th>
                     <th scope="col">Description</th>
-                    <th scope="col">Image</th>
-                    <th scope="col" colspan="3">Action</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Thumbnail</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                <?php $no = 1; ?>
-                  @foreach($portfolio as $porto)
+
+                  @foreach($blog as $index =>$blogs)
 
                   <tr>
-                    <th scope="row">{{$no}}</th>
-                    <td>{{ $porto->port_name }}</td>
-                    <td>{{ $porto->port_client }}</td>
-                    <td>{{ $porto->port_description }}</td>
-                    <td style="width:300px!important"><img src="{{asset('img/portfolio/'.$porto->port_img)}}" class="img-fluid img-thumbnail" style="width:100%;height: 5vw;object-fit:cover;" alt="{{ $porto->port_name }}"></td>
+                    <th scope="row">{{$blog->firstItem() + $index}}</th>
+                    <td>{{ $blogs->blog_title }}</td>
+                    <td style="max-width: 200px;text-overflow:ellipsis;overflow: hidden;white-space: nowrap;">{{ $blogs->plain_desc }}</td>
+                    <td>{{ $blogs->category }}</td>
+                    <td style="width:300px!important"><img src="{{asset('img/blog/'.$blogs->blog_thumbnail)}}" class="img-fluid img-thumbnail" style="width:100%;height: 7vw;object-fit:cover;" alt="{{ $blogs->blog_thumbnail }}"></td>
                     <td>
-                        <a href="" class="btn btn-icon icon-left btn-primary"><i class="far fa-newspaper"></i>View</a>
-                        <a href="" class="btn btn-icon icon-left btn-warning"><i class="far fa-edit"></i>Edit</a>
-                        <a href="#" class="btn btn-icon icon-left btn-danger swal-confirm" data-id="{{$porto->id}}">
-                            <form action="{{route('port_delete',$porto->id)}}" id="delete{{$porto->id}}" method="POST">
+                        <a href="{{route('viewblog',$blogs->slug)}}" class="btn btn-icon icon-left btn-primary"><i class="far fa-newspaper"></i>View</a>
+                        <a href="{{route('blog_edit',$blogs->id)}}" class="btn btn-icon icon-left btn-warning"><i class="far fa-edit"></i>Edit</a>
+                        <a href="#" class="btn btn-icon icon-left btn-danger swal-confirm" data-id="{{$blogs->id}}">
+                            <form action="{{route('blog_delete',$blogs->id)}}" id="delete{{$blogs->id}}" method="POST">
                             @csrf
                             @method('delete')
                             </form>
                             <i class="fa fa-trash"></i>
                             Delete</a>
                     </td>
+                    </td>
+
                 </tr>
-                  <?php $no++; ?>
+
                   @endforeach
                 </tbody>
               </table>
-              <div>{{$portfolio->links()}}</div>
+              <div class="card-footer">
+                    {{$blog->links()}}
+              </div>
             </div>
           </div>
       </div>

@@ -122,6 +122,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.5s;
   z-index: 997;
   padding: 20px 0;
+  background: rgba(21, 21, 22, 0.9);
 }
 
 #header.header-scrolled, #header.header-inner-pages {
@@ -155,6 +156,7 @@ h1, h2, h3, h4, h5, h6 {
 */
 .navbar {
   padding: 0;
+
 }
 
 .navbar ul {
@@ -1627,7 +1629,7 @@ section {
 .blog{
   border: none;
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .blogbtn{
@@ -1642,3 +1644,4 @@ section {
     width: auto;
     max-height: 100%;
 }
+

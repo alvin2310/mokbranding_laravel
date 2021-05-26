@@ -37,9 +37,14 @@ class BlogController extends Controller
         return redirect('/dashboard/blog');
     }
 
-    public function viewblog($slug,$id){
+    public function viewblog($slug){
         $data=DB::table('blog')->where('slug',$slug)->first();
         return view('viewblog',compact('data'));
+    }
+
+    public function getdata(){
+        $blog = DB::table('blog')->paginate(5);
+        return view('blog',['blog'=>$blog]);
     }
 
 
@@ -80,12 +85,12 @@ class BlogController extends Controller
             $data = base64_decode($data);
 
             $image_name=time().$key.'.png';
-            $path = public_path().'/img/blog'.$image_name;
+            $path = public_path().'/img/blog/'.$image_name;
 
             file_put_contents($path, $data);
 
             $img->removeAttribute('src');
-            $img->setAttribute('src', '/img/blog'.$image_name);
+            $img->setAttribute('src', '/img/blog/'.$image_name);
         }
 
         $description = utf8_decode($dom->saveHTML($dom->documentElement));
@@ -97,7 +102,7 @@ class BlogController extends Controller
             'create_at' => $todayDate,
             'category' => $request->category,
             'blog_thumbnail' => $file_name,
-            'slug' => Str::slug($request->blog_title),
+            'slug' => Str::slug($request->blog_title).time(),
             'plain_desc' => strip_tags($request->blog_desc),
         ]);
         return redirect('/dashboard/blog');
