@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 Use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Input;
 
 class BlogController extends Controller
 {
@@ -47,6 +48,23 @@ class BlogController extends Controller
         return view('blog',['blog'=>$blog]);
     }
 
+    public function uploadImage(Request $request) {
+        if($request->hasFile('upload')) {
+            $originName = $request->file('upload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName.'_'.time().'.'.$extension;
+            $request->file('upload')->move(public_path('img/blog/'), $fileName);
+            $CKEditorFuncNum = $request->input('CKEditorFuncNum');
+            $url = asset('img/blog/'.$fileName);
+            $msg = 'Image successfully uploaded';
+            $response = "<script>window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$url', '$msg')</script>";
+
+            @header('Content-type: text/html; charset=utf-8');
+            echo $response;
+           }
+       }
+
 
     /**
      * Show the form for creating a new resource.
@@ -77,28 +95,29 @@ class BlogController extends Controller
         $dom->loadHtml(utf8_decode($description), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
 
         $images = $dom->getElementsByTagName('img');
-        foreach($images as $key => $img){
-            $data = $img->getAttribute('src');
+        // foreach($images as $key => $img){
+        //     $data = $img->getAttribute('src');
 
-            list($type, $data) = explode(';', $data);
-            list(, $data)      = explode(',', $data);
-            $data = base64_decode($data);
+        //     list($type, $data) = explode(';', $data);
+        //     list(, $data)      = explode(',', $data);
+        //     $data = base64_decode($data);
 
-            $image_name=time().$key.'.png';
-            $path = public_path().'/img/blog/'.$image_name;
+        //     $image_name=time().$key.'.png';
+        //     $path = public_path().'/img/blog/'.$image_name;
 
-            file_put_contents($path, $data);
+        //     file_put_contents($path, $data);
 
-            $img->removeAttribute('src');
-            $img->setAttribute('src', '/img/blog/'.$image_name);
-        }
+        //     $img->removeAttribute('src');
+        //     $img->setAttribute('src', '/img/blog/'.$image_name);
+        // }
 
         $description = utf8_decode($dom->saveHTML($dom->documentElement));
 
 
         DB::table('blog')->insert([
             'blog_title' => $request->blog_title,
-            'blog_desc' =>$description,
+            // 'blog_desc' =>$description,
+            'blog_desc' =>$request->blog_desc,
             'create_at' => $todayDate,
             'category' => $request->category,
             'blog_thumbnail' => $file_name,
@@ -152,4 +171,6 @@ class BlogController extends Controller
     {
         //
     }
+
+
 }

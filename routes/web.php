@@ -36,6 +36,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/dashboard/blog',[CrudController::class, 'showblogdata'])->name('blogdata');
     Route::get('/dashboard/insert-portfolio', function (){return view('insertportfolio');});
     Route::get('/dashboard/insert-blog', function (){return view('insertblog');});
+    Route::get('/dashboard/insert-blogck', function (){return view('ckeditor');});
     Route::get('logout',[AuthController::class, 'logout'])->name('logout');
     Route::post('/dashboard/portfolio/submit',[CrudController::class, 'simpanPortfolio'])->name('port_simpan');
     Route::post('/dashboard/blog/submit',[BlogController::class, 'store'])->name('blog_store');
@@ -43,6 +44,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::delete('/dashboard/blog/delete/{id}',[CrudController::class, 'delete_blog'])->name('blog_delete');
     Route::get('dashboard/update/blog/{id}',[CrudController::class, 'edit_blog'])->name('blog_edit');
     Route::patch('dashboard/blog/update/{id}',[CrudController::class, 'update_blog'])->name('blog_update');
+    Route::post('ckeditor/upload', 'BlogController@uploadImage')->name('ckeditor.image-upload');
 });
 
 

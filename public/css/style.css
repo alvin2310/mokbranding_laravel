@@ -565,6 +565,8 @@ section {
   margin-bottom: 0;
 }
 
+
+
 /*--------------------------------------------------------------
 # About
 --------------------------------------------------------------*/
@@ -1644,4 +1646,31 @@ section {
     width: auto;
     max-height: 100%;
 }
+.blogview img{
+    max-width: 100%;
+}
 
+.page_header{
+    padding-top: 120px;
+    padding-bottom: 80px;
+    background: rgba(21, 21, 22);
+    color:#fff;
+}
+
+.blog_author{
+    width: 50px;
+    border-radius: 50%;
+    position: relative;
+    border: 2px solid #fff;
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+}
+.author{
+    padding-top :10px;
+    padding-bottom: 10px;
+}
+
+.blog_side{
+  left: 0;
+  right: 0;
+  text-align: center;
+}

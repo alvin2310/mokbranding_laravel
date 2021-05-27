@@ -68,27 +68,27 @@ class CrudController extends Controller
         $dom->loadHtml(utf8_decode($description), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         libxml_clear_errors();
         $images = $dom->getElementsByTagName('img');
-        foreach($images as $key => $img){
-            $data = $img->getAttribute('src');
-            if (preg_match('/data:image/',$data)){
-                preg_match('/data:image\/(?<mime>.*?)\;/', $data, $groups);
-                $mime_type=$groups['mime'];
-                $path = '/img/blog/' . uniqid('', true) . '.' . $mime_type;
+        // foreach($images as $key => $img){
+        //     $data = $img->getAttribute('src');
+        //     if (preg_match('/data:image/',$data)){
+        //         preg_match('/data:image\/(?<mime>.*?)\;/', $data, $groups);
+        //         $mime_type=$groups['mime'];
+        //         $path = '/img/blog/' . uniqid('', true) . '.' . $mime_type;
 
-                $dataimage = Image::make($data)
-                ->resize(750, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                })
-                ->encode($mime_type, 80)
-                ->save(public_path($path));
-                $img->removeAttribute('src');
-                $img->setAttribute('src', asset($path));
+        //         $dataimage = Image::make($data)
+        //         ->resize(750, null, function ($constraint) {
+        //             $constraint->aspectRatio();
+        //         })
+        //         ->encode($mime_type, 80)
+        //         ->save(public_path($path));
+        //         $img->removeAttribute('src');
+        //         $img->setAttribute('src', asset($path));
 
 
-                // $img->removeAttribute('src');
-                // $img->setAttribute('src', '/img/blog/'.$image_name);
-            }
-        }
+        //         // $img->removeAttribute('src');
+        //         // $img->setAttribute('src', '/img/blog/'.$image_name);
+        //     }
+        // }
 
         $description = utf8_decode($dom->saveHTML($dom->documentElement));
         if ($request->hasFile('blog_thumbnail')) {
@@ -98,10 +98,11 @@ class CrudController extends Controller
             $file->move($upload_path,$file_name);
             DB::table('blog')->where('id',$id)->update([
                 'blog_title' => $request->blog_title,
-                'blog_desc' =>$description,
+                // 'blog_desc' =>$description,
+                'blog_desc' =>$request->blog_desc,
                 'create_at' => $todayDate,
                 'category' => $request->category,
-                'slug' => Str::slug($request->blog_title).time(),
+                'slug' => Str::slug($request->blog_title).$id,
                 'plain_desc' => strip_tags($request->blog_desc),
                 'blog_thumbnail' => $file_name,
             ]);
@@ -109,7 +110,8 @@ class CrudController extends Controller
         else{
             DB::table('blog')->where('id',$id)->update([
                 'blog_title' => $request->blog_title,
-                'blog_desc' =>$description,
+                // 'blog_desc' =>$description,
+                'blog_desc' =>$request->blog_desc,
                 'create_at' => $todayDate,
                 'category' => $request->category,
                 'slug' => Str::slug($request->blog_title).time(),

@@ -32,7 +32,7 @@
                   </div>
                   <div class="form-group mb-0">
                     <label>Description</label>
-                    <textarea id="summernote" name="blog_desc" class="form-control" >
+                    <textarea id="editor" name="blog_desc" class="form-control" >
                         {{$blog->blog_desc}}
                     </textarea>
                   </div>
@@ -50,3 +50,12 @@
 
 
 @endsection
+@push('after-script')
+<script src="//cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('editor', {
+        filebrowserUploadUrl: "{{route('ckeditor.image-upload', ['_token' => csrf_token() ])}}",
+        filebrowserUploadMethod: 'form'
+    });
+</script>
+@endpush

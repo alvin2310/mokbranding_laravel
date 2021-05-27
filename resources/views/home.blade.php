@@ -309,7 +309,7 @@
                 <div class="card-body">
                     <h5 class="card-title text-truncate">{{ $blogdata->blog_title }}</h5>
                     <p class="card-text text-truncate">{{ $blogdata->plain_desc }}</p>
-                    <a href="#" class="">Read More</a>
+                    <a href="{{route('viewblog',$blogdata->slug)}}" class="btn btn-primary">Read More</a>
                 </div>
                 </div>
             </div>
