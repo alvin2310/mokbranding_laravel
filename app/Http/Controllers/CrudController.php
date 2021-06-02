@@ -89,6 +89,7 @@ class CrudController extends Controller
         //         // $img->setAttribute('src', '/img/blog/'.$image_name);
         //     }
         // }
+        $old_data = DB::table('blog')->where('id',$id)->first();
 
         $description = utf8_decode($dom->saveHTML($dom->documentElement));
         if ($request->hasFile('blog_thumbnail')) {
@@ -100,9 +101,8 @@ class CrudController extends Controller
                 'blog_title' => $request->blog_title,
                 // 'blog_desc' =>$description,
                 'blog_desc' =>$request->blog_desc,
-                'create_at' => $todayDate,
                 'category' => $request->category,
-                'slug' => Str::slug($request->blog_title).$id,
+                'slug' => Str::slug($request->blog_title).$old_data->create_at,
                 'plain_desc' => strip_tags($request->blog_desc),
                 'blog_thumbnail' => $file_name,
             ]);
@@ -112,9 +112,8 @@ class CrudController extends Controller
                 'blog_title' => $request->blog_title,
                 // 'blog_desc' =>$description,
                 'blog_desc' =>$request->blog_desc,
-                'create_at' => $todayDate,
                 'category' => $request->category,
-                'slug' => Str::slug($request->blog_title).time(),
+                'slug' => Str::slug($request->blog_title).$old_data->create_at,
                 'plain_desc' => strip_tags($request->blog_desc),
             ]);
         }

@@ -12,4 +12,9 @@ class homeController extends Controller
         $blog = DB::table('blog')->paginate(6);
         return view('home',['portfolio'=>$portfolio, 'blog'=>$blog]);
     }
+
+    public function viewportfolio(){
+        return view('viewportfolio');
+    }
 }
+

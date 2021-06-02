@@ -29,6 +29,7 @@ Route::get('/blog',[BlogController::class, 'getdata']);
 Route::get('/login',[AuthController::class, 'showlogin']);
 Route::post('login',[AuthController::class, 'login'])->name('login');
 Route::get('/blog/{slug}',[BlogController::class, 'viewblog'])->name('viewblog');
+Route::get('/portfolio',[homeController::class, 'viewportfolio'])->name('viewportfolio');
 
 Route::group(['middleware'=>'auth'],function(){
     Route::get('/dashboard',[CrudController::class, 'showdata'])->name('dashboard');

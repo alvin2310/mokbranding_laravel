@@ -121,7 +121,7 @@ class BlogController extends Controller
             'create_at' => $todayDate,
             'category' => $request->category,
             'blog_thumbnail' => $file_name,
-            'slug' => Str::slug($request->blog_title).time(),
+            'slug' => Str::slug($request->blog_title).$todayDate,
             'plain_desc' => strip_tags($request->blog_desc),
         ]);
         return redirect('/dashboard/blog');
